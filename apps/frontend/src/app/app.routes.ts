@@ -28,6 +28,12 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'fondo-emergencia',
+    loadComponent: () =>
+      import('./user/fondo-emergencia/fondo-emergencia.component').then((m) => m.FondoEmergenciaComponent),
+    canActivate: [authGuard],
+  },
+  {
     path: 'profile',
     loadComponent: () => import('./user/profile/profile.component').then((m) => m.ProfileComponent),
     canActivate: [authGuard],

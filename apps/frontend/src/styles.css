@@ -1497,3 +1497,137 @@ body.motion-ok .ingresos-anillo {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Pagina de Fondo de Emergencia ---------- */
+.fondo-body {
+  grid-template-columns: 0.9fr 1.4fr;
+}
+
+.fondo-resumen-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.fondo-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.fondo-ahorrado {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--amber-light);
+}
+
+.fondo-de-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.fondo-de-meta strong {
+  color: var(--cream-white);
+}
+
+.fondo-editar-meta {
+  background: transparent;
+  border: none;
+  padding: 0 0 0 0.5rem;
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  width: auto;
+}
+
+.fondo-editar-meta:hover:not(:disabled) {
+  background: transparent;
+  color: var(--amber-light);
+  transform: none;
+}
+
+.fondo-meta-editor {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.fondo-meta-editor input {
+  margin-bottom: 0;
+}
+
+.fondo-meta-editor button {
+  width: auto;
+  white-space: nowrap;
+  margin-top: 0;
+}
+
+/* "Termometro": barra de progreso con relleno degradado ambar -> salvia */
+.fondo-termometro {
+  width: 100%;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+
+.fondo-termometro-relleno {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--amber), var(--sage));
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.motion-ok .fondo-termometro-relleno {
+  background-size: 200% 100%;
+  animation: brillo-termometro 3.5s ease-in-out infinite;
+}
+
+@keyframes brillo-termometro {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.fondo-porcentaje-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 0 1.4rem;
+  font-size: 0.8rem;
+}
+
+.fondo-porcentaje {
+  font-weight: 700;
+  color: var(--cream-white);
+}
+
+.fondo-falta {
+  color: var(--text-muted);
+}
+
+.fondo-lograda {
+  color: var(--sage);
+  font-weight: 700;
+}
+
+.fondo-form {
+  margin-top: 0.25rem;
+}
+
+.fondo-table-head {
+  grid-template-columns: 1.6fr 1fr 1fr 0.7fr;
+}
+
+.fondo-body .table-row {
+  grid-template-columns: 1.6fr 1fr 1fr 0.7fr;
+}
+
+@media (max-width: 980px) {
+  .fondo-body {
+    grid-template-columns: 1fr;
+  }
+}
