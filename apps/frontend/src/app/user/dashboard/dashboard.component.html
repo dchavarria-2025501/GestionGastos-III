@@ -98,6 +98,9 @@
             <span>{{ gasto.cantidad }}</span>
             <span class="cell-status completed">&#10003; {{ gasto.resultado }}</span>
           </div>
+          <p *ngIf="tieneMovimientos && filasGastos.length === 0" class="tabla-vacia">
+            Todavia no tienes gastos registrados.
+          </p>
         </div>
 
         <div class="table-footer">Ver los demás Gastos &#8964;</div>

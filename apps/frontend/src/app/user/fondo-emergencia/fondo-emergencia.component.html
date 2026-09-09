@@ -1,0 +1,112 @@
+<div class="dashboard-layout">
+  <app-dashboard-sidebar activo="fondo-emergencia"></app-dashboard-sidebar>
+
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Fondo de Emergencia</h1>
+        <p>Guarda un colchón para cuando la vida te sorprenda.</p>
+      </div>
+
+      <div class="header-right">
+        <div class="user-profile">
+          <div class="user-info">
+            <span class="user-name">{{ auth.currentUser()?.nombre }}</span>
+            <span class="user-role">{{ auth.currentUser()?.role?.toUpperCase() }}</span>
+          </div>
+          <div class="user-avatar">
+            <img *ngIf="auth.currentUser()?.avatarData" [src]="auth.currentUser()?.avatarData" alt="Foto de perfil" />
+            <svg *ngIf="!auth.currentUser()?.avatarData" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="20" fill="#bfe3f0"></circle>
+              <circle cx="27" cy="10" r="5" fill="#ffffff" opacity="0.9"></circle>
+              <path d="M0 30 Q10 19 20 27 T40 25 V40 H0 Z" fill="#8fbf6b"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-body fondo-body">
+      <div class="card fondo-resumen-card">
+        <div class="card-header">
+          <h3>🛟 Mi colchón financiero</h3>
+        </div>
+
+        <div class="fondo-meta-row">
+          <span class="fondo-ahorrado">Q {{ formatearQ(totalAhorrado) }}</span>
+          <span class="fondo-de-meta">
+            de tu meta de
+            <ng-container *ngIf="!editandoMeta">
+              <strong>Q {{ formatearQ(meta) }}</strong>
+              <button type="button" class="fondo-editar-meta" (click)="abrirEdicionMeta()">editar</button>
+            </ng-container>
+          </span>
+        </div>
+
+        <div class="fondo-meta-editor" *ngIf="editandoMeta">
+          <input type="number" [(ngModel)]="metaTemporal" min="1" step="100" placeholder="Nueva meta (Q)" />
+          <button type="button" (click)="guardarMeta()">Guardar</button>
+        </div>
+
+        <div class="fondo-termometro">
+          <div class="fondo-termometro-relleno" [style.width.%]="porcentajeMeta"></div>
+        </div>
+
+        <div class="fondo-porcentaje-row">
+          <span class="fondo-porcentaje">{{ porcentajeMeta }}% alcanzado</span>
+          <span class="fondo-falta" *ngIf="!metaAlcanzada">Faltan Q {{ formatearQ(faltaParaMeta) }}</span>
+          <span class="fondo-lograda" *ngIf="metaAlcanzada">🎉 ¡Meta alcanzada!</span>
+        </div>
+
+        <p class="error" *ngIf="error">{{ error }}</p>
+
+        <form (ngSubmit)="agregarAporte()" class="fondo-form">
+          <label>Descripcion</label>
+          <input type="text" name="descripcion" [(ngModel)]="descripcionNueva" placeholder="Ej. Aporte mensual, ahorro extra..." />
+
+          <label>Monto a aportar (Q)</label>
+          <input type="number" name="monto" [(ngModel)]="montoNuevo" placeholder="0.00" min="0" step="0.01" />
+
+          <button type="submit" [disabled]="guardando">
+            {{ guardando ? 'Guardando...' : '+ Aportar al fondo' }}
+          </button>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Historial de aportes</h3>
+          <span>{{ aportes.length }} en total</span>
+        </div>
+
+        <ng-container *ngIf="!cargando">
+          <ng-container *ngIf="aportes.length > 0; else sinAportes">
+            <div class="table-head fondo-table-head">
+              <span>Descripcion</span>
+              <span>Fecha</span>
+              <span>Monto</span>
+              <span>Acciones</span>
+            </div>
+
+            <div class="table-body gastos-table-body">
+              <div class="table-row" *ngFor="let aporte of aportes">
+                <span>🐷 {{ aporte.descripcion }}</span>
+                <span>{{ formatearFecha(aporte.fecha) }}</span>
+                <span>Q. {{ formatearQ(aporte.monto) }}</span>
+                <span class="cell-status">
+                  <button type="button" class="eliminar-btn" (click)="eliminarAporte(aporte.id)" aria-label="Eliminar aporte">
+                    &times;
+                  </button>
+                </span>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #sinAportes>
+            <p class="tabla-vacia">Todavia no has aportado nada a tu fondo. ¡Empieza con lo que puedas!</p>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

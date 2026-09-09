@@ -10,8 +10,8 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './dashboard-sidebar.component.html',
 })
 export class DashboardSidebarComponent {
-  // Cual item resaltar como activo: 'dashboard' | 'gastos'
-  @Input() activo: 'dashboard' | 'gastos' = 'dashboard';
+  // Cual item resaltar como activo: 'dashboard' | 'gastos' | 'ingresos' | 'fondo-emergencia'
+  @Input() activo: 'dashboard' | 'gastos' | 'ingresos' | 'fondo-emergencia' = 'dashboard';
 
   @Output() proximamente = new EventEmitter<void>();
 

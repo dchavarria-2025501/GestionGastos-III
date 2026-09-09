@@ -23,8 +23,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'gastos',
-    loadComponent: () => import('./user/gastos/gastos.component').then((m) => m.GastosComponent),
+    path: 'ingresos',
+    loadComponent: () => import('./user/ingresos/ingresos.component').then((m) => m.IngresosComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'fondo-emergencia',
+    loadComponent: () =>
+      import('./user/fondo-emergencia/fondo-emergencia.component').then((m) => m.FondoEmergenciaComponent),
     canActivate: [authGuard],
   },
   {

@@ -1,0 +1,112 @@
+<div class="dashboard-layout">
+  <app-dashboard-sidebar activo="ingresos"></app-dashboard-sidebar>
+
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Mis Ingresos</h1>
+        <p>Lleva el control de todo el dinero que entra.</p>
+      </div>
+
+      <div class="header-right">
+        <div class="user-profile">
+          <div class="user-info">
+            <span class="user-name">{{ auth.currentUser()?.nombre }}</span>
+            <span class="user-role">{{ auth.currentUser()?.role?.toUpperCase() }}</span>
+          </div>
+          <div class="user-avatar">
+            <img *ngIf="auth.currentUser()?.avatarData" [src]="auth.currentUser()?.avatarData" alt="Foto de perfil" />
+            <svg *ngIf="!auth.currentUser()?.avatarData" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="20" fill="#bfe3f0"></circle>
+              <circle cx="27" cy="10" r="5" fill="#ffffff" opacity="0.9"></circle>
+              <path d="M0 30 Q10 19 20 27 T40 25 V40 H0 Z" fill="#8fbf6b"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-body ingresos-body">
+      <div class="card ingresos-resumen-card">
+        <div class="card-header">
+          <h3>Resumen</h3>
+        </div>
+
+        <div class="ingresos-anillo-wrap">
+          <div class="ingresos-anillo">
+            <div class="ingresos-anillo-interior">
+              <span class="ingresos-anillo-label">Total</span>
+              <span class="ingresos-anillo-monto">Q{{ totalAnimadoFormateado }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ingresos-stats">
+          <div class="ingresos-stat">
+            <span class="ingresos-stat-valor">{{ ingresos.length }}</span>
+            <span class="ingresos-stat-label">Registros</span>
+          </div>
+          <div class="ingresos-stat">
+            <span class="ingresos-stat-valor">Q{{ promedioIngreso }}</span>
+            <span class="ingresos-stat-label">Promedio</span>
+          </div>
+        </div>
+
+        <p class="error" *ngIf="error">{{ error }}</p>
+
+        <div class="ingresos-chips">
+          <button
+            type="button"
+            class="ingresos-chip"
+            *ngFor="let cat of categoriasRapidas"
+            [class.activo]="categoriaActiva === cat.etiqueta"
+            (click)="elegirCategoriaRapida(cat)"
+          >
+            <span>{{ cat.emoji }}</span> {{ cat.etiqueta }}
+          </button>
+        </div>
+
+        <form (ngSubmit)="agregarIngreso()" class="ingresos-form">
+          <input type="text" name="descripcion" [(ngModel)]="descripcionNueva" placeholder="Descripcion del ingreso" />
+          <div class="ingresos-form-row">
+            <input type="number" name="monto" [(ngModel)]="montoNuevo" placeholder="Monto (Q)" min="0" step="0.01" />
+            <button type="submit" [disabled]="guardando">
+              {{ guardando ? '...' : '+ Agregar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Historial de ingresos</h3>
+          <span>{{ ingresos.length }} en total</span>
+        </div>
+
+        <ng-container *ngIf="!cargando">
+          <div class="ingresos-timeline" *ngIf="ingresos.length > 0; else sinIngresos">
+            <div class="ingresos-item" *ngFor="let ingreso of ingresos">
+              <div class="ingresos-item-punto"></div>
+              <div class="ingresos-item-cuerpo">
+                <div class="ingresos-item-info">
+                  <span class="ingresos-item-desc">{{ ingreso.descripcion }}</span>
+                  <span class="ingresos-item-fecha">{{ formatearFecha(ingreso.fecha) }}</span>
+                </div>
+                <div class="ingresos-item-derecha">
+                  <span class="ingresos-item-monto">+Q {{ formatearMonto(ingreso.monto) }}</span>
+                  <button type="button" class="eliminar-btn" (click)="eliminarIngreso(ingreso.id)" aria-label="Eliminar ingreso">
+                    &times;
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #sinIngresos>
+            <p class="tabla-vacia">Todavia no has registrado ningun ingreso. ¡Agrega el primero!</p>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1204,6 +1204,12 @@ body.motion-ok .dashboard-body .card:nth-child(2) {
   font-size: 0.85rem;
 }
 
+/* El historial de Gastos/Ingresos vive sobre fondo claro (.table-body),
+   asi que ahi el texto vacio necesita un tono oscuro en vez del claro. */
+.table-body .tabla-vacia {
+  color: #8a8374;
+}
+
 /* ---------- Pagina de Gastos ---------- */
 .gastos-body {
   grid-template-columns: 0.9fr 1.4fr;
@@ -1255,6 +1261,373 @@ body.motion-ok .dashboard-body .card:nth-child(2) {
 
 @media (max-width: 980px) {
   .gastos-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Pagina de Ingresos (diseño distinto, misma paleta) ---------- */
+.ingresos-body {
+  grid-template-columns: 0.85fr 1.45fr;
+}
+
+.ingresos-resumen-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Anillo de progreso: un conic-gradient ambar/salvia que gira lentamente
+   detras de un circulo interior oscuro con el monto total. */
+.ingresos-anillo-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.ingresos-anillo {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--amber), var(--sage), var(--amber-light), var(--amber));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+.ingresos-anillo-interior {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--bg-panel);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.2rem;
+}
+
+.ingresos-anillo-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.ingresos-anillo-monto {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--amber-light);
+}
+
+body.motion-ok .ingresos-anillo {
+  animation: girar-anillo 14s linear infinite;
+}
+
+@keyframes girar-anillo {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.ingresos-stats {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.ingresos-stat {
+  flex: 1;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.ingresos-stat-valor {
+  display: block;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--cream-white);
+}
+
+.ingresos-stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+.ingresos-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.1rem 0;
+}
+
+.ingresos-chip {
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ingresos-chip:hover:not(:disabled) {
+  border-color: var(--amber);
+  color: var(--amber-light);
+  transform: none;
+  background: var(--bg-panel-soft);
+}
+
+.ingresos-chip.activo {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #3d3a32;
+}
+
+.ingresos-form {
+  margin-top: 0.25rem;
+}
+
+.ingresos-form-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.ingresos-form-row input {
+  margin-bottom: 0;
+}
+
+.ingresos-form-row button {
+  white-space: nowrap;
+  margin-top: 0;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* Timeline del historial: tarjetas apiladas con una linea vertical y un
+   punto por cada ingreso, en vez de una tabla plana. */
+.ingresos-timeline {
+  position: relative;
+  padding-left: 1.6rem;
+}
+
+.ingresos-timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.ingresos-item {
+  position: relative;
+  margin-bottom: 0.9rem;
+}
+
+.ingresos-item-punto {
+  position: absolute;
+  left: -1.6rem;
+  top: 0.9rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 2px solid var(--bg-panel);
+  box-shadow: 0 0 0 2px var(--amber);
+}
+
+.ingresos-item-cuerpo {
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ingresos-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ingresos-item-desc {
+  font-weight: 700;
+  color: var(--cream-white);
+}
+
+.ingresos-item-fecha {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.ingresos-item-derecha {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ingresos-item-monto {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  color: var(--sage);
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  .ingresos-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Pagina de Fondo de Emergencia ---------- */
+.fondo-body {
+  grid-template-columns: 0.9fr 1.4fr;
+}
+
+.fondo-resumen-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.fondo-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.fondo-ahorrado {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--amber-light);
+}
+
+.fondo-de-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.fondo-de-meta strong {
+  color: var(--cream-white);
+}
+
+.fondo-editar-meta {
+  background: transparent;
+  border: none;
+  padding: 0 0 0 0.5rem;
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: underline;
+  width: auto;
+}
+
+.fondo-editar-meta:hover:not(:disabled) {
+  background: transparent;
+  color: var(--amber-light);
+  transform: none;
+}
+
+.fondo-meta-editor {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.fondo-meta-editor input {
+  margin-bottom: 0;
+}
+
+.fondo-meta-editor button {
+  width: auto;
+  white-space: nowrap;
+  margin-top: 0;
+}
+
+/* "Termometro": barra de progreso con relleno degradado ambar -> salvia */
+.fondo-termometro {
+  width: 100%;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+
+.fondo-termometro-relleno {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--amber), var(--sage));
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.motion-ok .fondo-termometro-relleno {
+  background-size: 200% 100%;
+  animation: brillo-termometro 3.5s ease-in-out infinite;
+}
+
+@keyframes brillo-termometro {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.fondo-porcentaje-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 0 1.4rem;
+  font-size: 0.8rem;
+}
+
+.fondo-porcentaje {
+  font-weight: 700;
+  color: var(--cream-white);
+}
+
+.fondo-falta {
+  color: var(--text-muted);
+}
+
+.fondo-lograda {
+  color: var(--sage);
+  font-weight: 700;
+}
+
+.fondo-form {
+  margin-top: 0.25rem;
+}
+
+.fondo-table-head {
+  grid-template-columns: 1.6fr 1fr 1fr 0.7fr;
+}
+
+.fondo-body .table-row {
+  grid-template-columns: 1.6fr 1fr 1fr 0.7fr;
+}
+
+@media (max-width: 980px) {
+  .fondo-body {
     grid-template-columns: 1fr;
   }
 }

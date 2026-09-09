@@ -7,7 +7,7 @@ import { SessionExpiredModalComponent } from './shared/session-expired-modal/ses
 
 // Estas rutas ya traen su propio encabezado y sidebar (para que la pantalla
 // quede identica al diseño final), asi que ahi se oculta el navbar generico.
-const RUTAS_CON_LAYOUT_PROPIO = ['/dashboard', '/gastos'];
+const RUTAS_CON_LAYOUT_PROPIO = ['/dashboard', '/gastos', '/ingresos', '/fondo-emergencia'];
 
 @Component({
   selector: 'app-root',
