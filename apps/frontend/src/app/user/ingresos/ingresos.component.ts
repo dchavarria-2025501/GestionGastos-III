@@ -7,16 +7,14 @@ import { DashboardSidebarComponent } from '../../shared/dashboard-sidebar/dashbo
 
 interface CategoriaRapida {
   etiqueta: string;
-  emoji: string;
 }
 
-// Atajos para no tener que escribir la descripcion desde cero cada vez.
 const CATEGORIAS_RAPIDAS: CategoriaRapida[] = [
-  { etiqueta: 'Salario', emoji: '💵' },
-  { etiqueta: 'Freelance', emoji: '💻' },
-  { etiqueta: 'Bono', emoji: '🎁' },
-  { etiqueta: 'Venta', emoji: '🏷️' },
-  { etiqueta: 'Reembolso', emoji: '↩️' },
+  { etiqueta: 'Salario' },
+  { etiqueta: 'Freelance' },
+  { etiqueta: 'Bono' },
+  { etiqueta: 'Venta' },
+  { etiqueta: 'Reembolso' },
 ];
 
 @Component({
@@ -37,8 +35,6 @@ export class IngresosComponent implements OnInit {
   guardando = false;
   error = '';
 
-  // Para que el numero del resumen "cuente" al cargar, en vez de aparecer
-  // ya calculado de golpe.
   totalAnimado = 0;
 
   constructor(public auth: AuthService, private movimientoService: MovimientoService) {}
@@ -70,7 +66,6 @@ export class IngresosComponent implements OnInit {
 
     const paso = (ahora: number) => {
       const progreso = Math.min(1, (ahora - inicio) / duracionMs);
-      // easeOutCubic: arranca rapido y desacelera al final.
       const suavizado = 1 - Math.pow(1 - progreso, 3);
       this.totalAnimado = destino * suavizado;
       if (progreso < 1) {

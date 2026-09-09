@@ -62,7 +62,7 @@
             [class.activo]="categoriaActiva === cat.etiqueta"
             (click)="elegirCategoriaRapida(cat)"
           >
-            <span>{{ cat.emoji }}</span> {{ cat.etiqueta }}
+            {{ cat.etiqueta }}
           </button>
         </div>
 
@@ -93,7 +93,7 @@
                   <span class="ingresos-item-fecha">{{ formatearFecha(ingreso.fecha) }}</span>
                 </div>
                 <div class="ingresos-item-derecha">
-                  <span class="ingresos-item-monto">+Q {{ formatearMonto(ingreso.monto) }}</span>
+                  <span class="ingresos-item-monto">Q {{ formatearMonto(ingreso.monto) }}</span>
                   <button type="button" class="eliminar-btn" (click)="eliminarIngreso(ingreso.id)" aria-label="Eliminar ingreso">
                     &times;
                   </button>

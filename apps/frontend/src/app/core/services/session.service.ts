@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 // Tiempo de inactividad tras el cual se considera vencida la sesion.
-const LIMITE_INACTIVIDAD_MS = 2 * 60 * 1000; // 2 minutos
+const LIMITE_INACTIVIDAD_MS = 15 * 60 * 1000; // 15 minutos
 
 const EVENTOS_ACTIVIDAD = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'] as const;
 

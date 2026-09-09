@@ -29,7 +29,7 @@
     <div class="dashboard-body fondo-body">
       <div class="card fondo-resumen-card">
         <div class="card-header">
-          <h3>🛟 Mi colchón financiero</h3>
+          <h3>Mi colchón financiero</h3>
         </div>
 
         <div class="fondo-meta-row">
@@ -55,7 +55,7 @@
         <div class="fondo-porcentaje-row">
           <span class="fondo-porcentaje">{{ porcentajeMeta }}% alcanzado</span>
           <span class="fondo-falta" *ngIf="!metaAlcanzada">Faltan Q {{ formatearQ(faltaParaMeta) }}</span>
-          <span class="fondo-lograda" *ngIf="metaAlcanzada">🎉 ¡Meta alcanzada!</span>
+          <span class="fondo-lograda" *ngIf="metaAlcanzada">¡Meta alcanzada!</span>
         </div>
 
         <p class="error" *ngIf="error">{{ error }}</p>
@@ -90,7 +90,7 @@
 
             <div class="table-body gastos-table-body">
               <div class="table-row" *ngFor="let aporte of aportes">
-                <span>🐷 {{ aporte.descripcion }}</span>
+                <span>{{ aporte.descripcion }}</span>
                 <span>{{ formatearFecha(aporte.fecha) }}</span>
                 <span>Q. {{ formatearQ(aporte.monto) }}</span>
                 <span class="cell-status">
