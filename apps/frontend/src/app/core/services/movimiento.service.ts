@@ -31,4 +31,24 @@ export class MovimientoService {
   eliminar(id: string): Observable<void> {
     return this.http.delete<void>(`${API_URL}/${id}`);
   }
+
+  /**
+   * Calcula cuanto le queda disponible al usuario para registrar en
+   * gastos, impuestos o fondo de emergencia: sus ingresos totales menos
+   * lo que ya tiene registrado en esas tres categorias. La misma regla
+   * que aplica el backend al crear un movimiento (nunca se puede "gastar"
+   * mas de lo que se ha ingresado).
+   */
+  calcularDisponible(movimientos: Movimiento[]): number {
+    let ingresos = 0;
+    let egresos = 0;
+    for (const m of movimientos) {
+      if (m.categoria === 'ingresos') {
+        ingresos += m.monto;
+      } else {
+        egresos += m.monto;
+      }
+    }
+    return ingresos - egresos;
+  }
 }

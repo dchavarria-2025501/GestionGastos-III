@@ -246,6 +246,24 @@ button.danger:hover:not(:disabled) {
   margin-bottom: 1rem;
 }
 
+.disponible-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.disponible-hint strong {
+  color: var(--sage);
+}
+
+.disponible-hint-negativo strong {
+  color: #e08a72;
+}
+
 .login-logo {
   display: flex;
   align-items: center;
@@ -337,6 +355,30 @@ button.danger:hover:not(:disabled) {
 .auth-footer a:hover {
   color: #3d3a32;
   text-decoration: underline;
+}
+
+.separador-o {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.6rem 0 1.1rem;
+  color: #a39e93;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.separador-o::before,
+.separador-o::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(78, 74, 64, 0.15);
+}
+
+.google-btn-wrap {
+  display: flex;
+  justify-content: center;
 }
 
 .app-shell {
@@ -1631,3 +1673,683 @@ body.motion-ok .fondo-termometro-relleno {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Pagina de Impuestos ---------- */
+.impuestos-body {
+  grid-template-columns: 0.9fr 1.4fr;
+}
+
+.impuestos-resumen-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Medidor semicircular (velocimetro) de carga fiscal */
+.medidor-wrap {
+  width: 220px;
+  height: 118px;
+  margin: 0.5rem auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.medidor-arco {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: background 0.6s ease;
+}
+
+.medidor-hueco {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: var(--bg-panel);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 1.6rem;
+  text-align: center;
+}
+
+.medidor-valor {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.7rem;
+  color: var(--cream-white);
+}
+
+.medidor-etiqueta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.1rem;
+}
+
+.medidor-mensaje {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0.5rem 0 1.1rem;
+}
+
+.impuestos-stats {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+/* Historial estilo "recibo de caja" */
+.impuestos-recibo-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.recibo {
+  background: repeating-linear-gradient(
+    var(--bg-panel-soft),
+    var(--bg-panel-soft) 100%
+  );
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.3rem;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--cream-white);
+}
+
+.recibo-encabezado {
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.9rem;
+}
+
+.recibo-linea {
+  margin-bottom: 0.6rem;
+}
+
+.recibo-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.recibo-sublinea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+.recibo-eliminar {
+  background: transparent;
+  border: none;
+  color: #c2604a;
+  text-decoration: underline;
+  font-size: 0.72rem;
+  padding: 0;
+  width: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.recibo-eliminar:hover:not(:disabled) {
+  background: transparent;
+  color: #e0806a;
+  transform: none;
+}
+
+.recibo-separador {
+  color: var(--border-color);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.recibo-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--amber-light);
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.recibo-pie {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+@media (max-width: 980px) {
+  .impuestos-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Pagina de Reportes ---------- */
+.reportes-body {
+  grid-template-columns: 0.9fr 1.4fr;
+}
+
+.reportes-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.4rem;
+}
+
+.reportes-stat {
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.reportes-stat-label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.reportes-stat-valor {
+  display: block;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--cream-white);
+}
+
+.reportes-valor-ingreso {
+  color: var(--sage);
+}
+
+.reportes-valor-egreso {
+  color: #e08a72;
+}
+
+.reportes-comparativa-titulo {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.reportes-comparativa {
+  display: flex;
+  width: 100%;
+  height: 28px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.reportes-comparativa-barra {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #2b2820;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 2%;
+}
+
+.reportes-barra-ingreso {
+  background: var(--amber);
+}
+
+.reportes-barra-egreso {
+  background: #a9a49b;
+}
+
+.reportes-comparativa-leyenda {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0.6rem 0 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.reportes-comparativa-leyenda span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reportes-punto {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.reportes-punto-ingreso {
+  background: var(--amber);
+}
+
+.reportes-punto-egreso {
+  background: #a9a49b;
+}
+
+.reportes-exportar-btn {
+  width: 100%;
+}
+
+/* Grafico de barras verticales por categoria */
+.reportes-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  height: 190px;
+  padding: 0 0.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.reportes-barra-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 0.4rem;
+}
+
+.reportes-barra-monto {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--cream-white);
+  white-space: nowrap;
+}
+
+.reportes-barra-pista {
+  width: 100%;
+  max-width: 46px;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reportes-barra-relleno {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 3px;
+}
+
+.reportes-barra-etiqueta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.reportes-recientes-header {
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.reportes-recientes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reportes-reciente-fila {
+  display: grid;
+  grid-template-columns: auto 1.4fr auto auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-panel-soft);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.reportes-reciente-desc {
+  color: var(--cream-white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reportes-reciente-fecha {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.reportes-reciente-monto {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.reportes-reciente-categoria {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.reportes-tag-ingresos {
+  background: rgba(219, 156, 76, 0.2);
+  color: var(--amber);
+}
+
+.reportes-tag-gastos {
+  background: rgba(169, 164, 155, 0.25);
+  color: #cfc9bd;
+}
+
+.reportes-tag-impuestos {
+  background: rgba(147, 157, 130, 0.25);
+  color: var(--sage);
+}
+
+.reportes-tag-fondo_emergencia {
+  background: rgba(244, 232, 213, 0.18);
+  color: var(--amber-light);
+}
+
+@media (max-width: 980px) {
+  .reportes-body {
+    grid-template-columns: 1fr;
+  }
+
+  .reportes-reciente-fila {
+    grid-template-columns: auto 1fr;
+    row-gap: 0.3rem;
+  }
+}
+
+/* ---------- Pagina de Mi Tarjeta ---------- */
+.tarjeta-body {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.tarjeta-escenario {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 1rem;
+  perspective: 1400px;
+}
+
+.tarjeta-3d {
+  position: relative;
+  width: 340px;
+  max-width: 100%;
+  height: 200px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tarjeta-3d.volteada {
+  transform: rotateY(180deg);
+}
+
+.tarjeta-cara {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  padding: 1.4rem;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-frente {
+  background: linear-gradient(135deg, #4e4a40 0%, #3d3a32 60%, #2b2820 100%);
+  border: 1px solid rgba(244, 232, 213, 0.15);
+  justify-content: space-between;
+}
+
+.tarjeta-reverso {
+  background: linear-gradient(135deg, #3d3a32 0%, #2b2820 100%);
+  border: 1px solid rgba(244, 232, 213, 0.15);
+  transform: rotateY(180deg);
+  justify-content: flex-start;
+}
+
+.tarjeta-marca {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--amber-light);
+}
+
+.tarjeta-chip {
+  width: 42px;
+  height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--amber-light), var(--amber));
+  margin-top: 0.6rem;
+}
+
+.tarjeta-numero {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  color: var(--cream-white);
+  margin-top: 0.4rem;
+}
+
+.tarjeta-info-inferior {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.tarjeta-etiqueta {
+  display: block;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.tarjeta-valor {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cream-white);
+  margin-top: 0.15rem;
+}
+
+.tarjeta-congelada-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.tarjeta-banda {
+  height: 38px;
+  background: #1c1a16;
+  margin: 1rem 0 1.25rem -1.4rem;
+  width: calc(100% + 2.8rem);
+}
+
+.tarjeta-firma-cvv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.tarjeta-firma {
+  flex: 1;
+  height: 30px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(244, 232, 213, 0.5),
+    rgba(244, 232, 213, 0.5) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  border-radius: 4px;
+}
+
+.tarjeta-cvv {
+  background: #fdfaf3;
+  color: #2b2820;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+}
+
+.tarjeta-nota {
+  margin-top: 1.1rem;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.tarjeta-acciones {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.tarjeta-acciones button {
+  flex: 1;
+}
+
+.tarjeta-btn-secundario {
+  background: transparent;
+  border: 1px solid var(--amber);
+  color: var(--amber-light);
+}
+
+.tarjeta-btn-secundario:hover:not(:disabled) {
+  background: rgba(219, 156, 76, 0.15);
+  color: var(--amber-light);
+}
+
+.tarjeta-config-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tarjeta-config-titulo {
+  font-weight: 700;
+  color: var(--cream-white);
+  font-size: 0.92rem;
+}
+
+.tarjeta-config-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0;
+  max-width: 320px;
+}
+
+.tarjeta-switch {
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-color);
+  padding: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tarjeta-switch-bola {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform 0.25s ease, background 0.25s ease;
+  display: block;
+}
+
+.tarjeta-switch.activo {
+  background: rgba(219, 156, 76, 0.35);
+  border-color: var(--amber);
+}
+
+.tarjeta-switch.activo .tarjeta-switch-bola {
+  transform: translateX(20px);
+  background: var(--amber);
+}
+
+.tarjeta-datos-lista {
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-dato-fila {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.85rem;
+}
+
+.tarjeta-dato-fila:last-child {
+  border-bottom: none;
+}
+
+.tarjeta-dato-fila .label {
+  color: var(--text-muted);
+}
+
+.tarjeta-dato-fila .value {
+  color: var(--cream-white);
+  font-weight: 600;
+}
+
+@media (max-width: 980px) {
+  .tarjeta-body {
+    grid-template-columns: 1fr;
+  }
+}
+

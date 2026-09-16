@@ -59,6 +59,9 @@
         </div>
 
         <p class="error" *ngIf="error">{{ error }}</p>
+        <p class="disponible-hint" [class.disponible-hint-negativo]="disponible <= 0">
+          Disponible: <strong>Q {{ formatearQ(disponible) }}</strong>
+        </p>
 
         <form (ngSubmit)="agregarAporte()" class="fondo-form">
           <label>Descripcion</label>

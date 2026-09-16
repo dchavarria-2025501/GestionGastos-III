@@ -56,3 +56,31 @@ export async function eliminarMovimiento(id: string, usuarioId: string): Promise
   );
   return (rowCount ?? 0) > 0;
 }
+
+export interface TotalesPorCategoria {
+  ingresos: number;
+  gastos: number;
+  impuestos: number;
+  fondo_emergencia: number;
+}
+
+/**
+ * Suma, en una sola consulta, cuanto lleva registrado el usuario en cada
+ * categoria. Se usa para validar que no se registren mas egresos (gastos,
+ * impuestos, fondo de emergencia) que ingresos disponibles.
+ */
+export async function totalesPorUsuario(usuarioId: string): Promise<TotalesPorCategoria> {
+  const { rows } = await pool.query<{ categoria: CategoriaMovimiento; total: string }>(
+    `SELECT categoria, COALESCE(SUM(monto), 0) AS total
+     FROM movimientos
+     WHERE usuario_id = $1
+     GROUP BY categoria`,
+    [usuarioId]
+  );
+
+  const totales: TotalesPorCategoria = { ingresos: 0, gastos: 0, impuestos: 0, fondo_emergencia: 0 };
+  for (const row of rows) {
+    totales[row.categoria] = Number(row.total);
+  }
+  return totales;
+}

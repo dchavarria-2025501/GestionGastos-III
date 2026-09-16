@@ -28,6 +28,14 @@
       </button>
     </form>
 
+    <div class="separador-o" *ngIf="googleDisponible">
+      <span>o</span>
+    </div>
+
+    <div class="google-btn-wrap" *ngIf="googleDisponible">
+      <div #googleBtn></div>
+    </div>
+
     <p class="auth-footer">¿No tienes cuenta? <a routerLink="/register">Registrate aqui</a></p>
   </div>
 </div>

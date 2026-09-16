@@ -1,0 +1,120 @@
+<div class="dashboard-layout">
+  <app-dashboard-sidebar activo="mi-tarjeta"></app-dashboard-sidebar>
+
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Mi Tarjeta</h1>
+        <p>Tu tarjeta virtual dentro de Controla.</p>
+      </div>
+
+      <div class="header-right">
+        <div class="user-profile">
+          <div class="user-info">
+            <span class="user-name">{{ auth.currentUser()?.nombre }}</span>
+            <span class="user-role">{{ auth.currentUser()?.role?.toUpperCase() }}</span>
+          </div>
+          <div class="user-avatar">
+            <img *ngIf="auth.currentUser()?.avatarData" [src]="auth.currentUser()?.avatarData" alt="Foto de perfil" />
+            <svg *ngIf="!auth.currentUser()?.avatarData" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="20" fill="#bfe3f0"></circle>
+              <circle cx="27" cy="10" r="5" fill="#ffffff" opacity="0.9"></circle>
+              <path d="M0 30 Q10 19 20 27 T40 25 V40 H0 Z" fill="#8fbf6b"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-body tarjeta-body">
+      <div class="card tarjeta-visual-card">
+        <div class="card-header">
+          <h3>Vista de la tarjeta</h3>
+        </div>
+
+        <div class="tarjeta-escenario">
+          <div class="tarjeta-3d" [class.volteada]="volteada" [class.congelada]="congelada">
+            <div class="tarjeta-cara tarjeta-frente">
+              <div class="tarjeta-marca">CONTROLA PAY</div>
+              <div class="tarjeta-chip"></div>
+              <div class="tarjeta-numero">{{ numeroMostrado }}</div>
+              <div class="tarjeta-info-inferior">
+                <div>
+                  <span class="tarjeta-etiqueta">Titular</span>
+                  <span class="tarjeta-valor">{{ nombreTitular }}</span>
+                </div>
+                <div>
+                  <span class="tarjeta-etiqueta">Vence</span>
+                  <span class="tarjeta-valor">{{ vencimiento }}</span>
+                </div>
+              </div>
+              <div class="tarjeta-congelada-overlay" *ngIf="congelada">Tarjeta congelada</div>
+            </div>
+
+            <div class="tarjeta-cara tarjeta-reverso">
+              <div class="tarjeta-banda"></div>
+              <div class="tarjeta-firma-cvv">
+                <div class="tarjeta-firma"></div>
+                <span class="tarjeta-cvv">{{ congelada ? '•••' : cvv }}</span>
+              </div>
+              <p class="tarjeta-nota">
+                Tarjeta virtual de Controla, unicamente para fines de organizacion personal dentro de la
+                aplicacion.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tarjeta-acciones">
+          <button type="button" (click)="voltear()">{{ volteada ? 'Ver frente' : 'Ver reverso' }}</button>
+          <button type="button" class="tarjeta-btn-secundario" (click)="alternarNumeroVisible()" [disabled]="congelada">
+            {{ numeroVisible ? 'Ocultar numero' : 'Mostrar numero' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Configuración</h3>
+        </div>
+
+        <div class="tarjeta-config-fila">
+          <div>
+            <span class="tarjeta-config-titulo">Congelar tarjeta</span>
+            <p class="tarjeta-config-desc">
+              Mientras esta congelada, el numero completo y el CVV permanecen ocultos.
+            </p>
+          </div>
+          <button
+            type="button"
+            class="tarjeta-switch"
+            [class.activo]="congelada"
+            (click)="alternarCongelada()"
+            [attr.aria-pressed]="congelada"
+          >
+            <span class="tarjeta-switch-bola"></span>
+          </button>
+        </div>
+
+        <div class="tarjeta-datos-lista">
+          <div class="tarjeta-dato-fila">
+            <span class="label">Titular</span>
+            <span class="value">{{ nombreTitular }}</span>
+          </div>
+          <div class="tarjeta-dato-fila">
+            <span class="label">Numero (ultimos 4)</span>
+            <span class="value">{{ ultimosCuatro }}</span>
+          </div>
+          <div class="tarjeta-dato-fila">
+            <span class="label">Vencimiento</span>
+            <span class="value">{{ vencimiento }}</span>
+          </div>
+          <div class="tarjeta-dato-fila">
+            <span class="label">Estado</span>
+            <span class="value">{{ congelada ? 'Congelada' : 'Activa' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

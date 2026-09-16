@@ -13,6 +13,7 @@ import { DashboardSidebarComponent } from '../../shared/dashboard-sidebar/dashbo
 })
 export class GastosComponent implements OnInit {
   gastos: Movimiento[] = [];
+  disponible = 0;
   cargando = true;
 
   descripcionNueva = '';
@@ -33,12 +34,17 @@ export class GastosComponent implements OnInit {
         this.gastos = res.movimientos
           .filter((m) => m.categoria === 'gastos')
           .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+        this.disponible = this.movimientoService.calcularDisponible(res.movimientos);
         this.cargando = false;
       },
       error: () => {
         this.cargando = false;
       },
     });
+  }
+
+  get disponibleFormateado(): string {
+    return this.disponible.toLocaleString('es-GT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   get totalGastos(): number {
@@ -74,6 +80,7 @@ export class GastosComponent implements OnInit {
       next: (res) => {
         this.guardando = false;
         this.gastos = [res.movimiento, ...this.gastos];
+        this.disponible -= res.movimiento.monto;
         this.descripcionNueva = '';
         this.montoNuevo = null;
       },
@@ -85,9 +92,13 @@ export class GastosComponent implements OnInit {
   }
 
   eliminarGasto(id: string): void {
+    const gasto = this.gastos.find((g) => g.id === id);
     this.movimientoService.eliminar(id).subscribe({
       next: () => {
         this.gastos = this.gastos.filter((g) => g.id !== id);
+        if (gasto) {
+          this.disponible += gasto.monto;
+        }
       },
     });
   }

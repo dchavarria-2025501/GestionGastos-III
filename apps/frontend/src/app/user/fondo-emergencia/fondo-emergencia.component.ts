@@ -19,6 +19,7 @@ const META_POR_DEFECTO = 10000;
 })
 export class FondoEmergenciaComponent implements OnInit {
   aportes: Movimiento[] = [];
+  disponible = 0;
   cargando = true;
 
   meta = META_POR_DEFECTO;
@@ -48,6 +49,7 @@ export class FondoEmergenciaComponent implements OnInit {
         this.aportes = res.movimientos
           .filter((m) => m.categoria === 'fondo_emergencia')
           .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+        this.disponible = this.movimientoService.calcularDisponible(res.movimientos);
         this.cargando = false;
       },
       error: () => {
@@ -113,6 +115,7 @@ export class FondoEmergenciaComponent implements OnInit {
       next: (res) => {
         this.guardando = false;
         this.aportes = [res.movimiento, ...this.aportes];
+        this.disponible -= res.movimiento.monto;
         this.descripcionNueva = 'Aporte al fondo';
         this.montoNuevo = null;
       },
@@ -124,9 +127,13 @@ export class FondoEmergenciaComponent implements OnInit {
   }
 
   eliminarAporte(id: string): void {
+    const aporte = this.aportes.find((a) => a.id === id);
     this.movimientoService.eliminar(id).subscribe({
       next: () => {
         this.aportes = this.aportes.filter((a) => a.id !== id);
+        if (aporte) {
+          this.disponible += aporte.monto;
+        }
       },
     });
   }

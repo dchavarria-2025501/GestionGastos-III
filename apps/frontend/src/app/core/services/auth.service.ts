@@ -44,6 +44,19 @@ export class AuthService {
     );
   }
 
+  /** Inicia sesion (o crea la cuenta si es la primera vez) con el token de Google. */
+  loginConGoogle(credential: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${API_URL}/google`, { credential }).pipe(
+      tap((res) => {
+        localStorage.setItem(TOKEN_KEY, res.token);
+        localStorage.setItem(USER_KEY, JSON.stringify(res.user));
+        this.currentUser.set(res.user);
+        this.session.iniciarVigilancia();
+        this.programarVencimientoToken(res.token);
+      })
+    );
+  }
+
   logout(): void {
     this.limpiarSesionLocal();
     this.session.detenerVigilancia();

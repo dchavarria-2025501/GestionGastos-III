@@ -28,6 +28,24 @@ export async function createMovimiento(req: AuthRequest, res: Response) {
     return res.status(400).json({ message: 'El monto debe ser un numero mayor a 0' });
   }
 
+  // Regla de negocio: no se puede registrar mas en gastos + impuestos +
+  // fondo de emergencia (egresos) que lo que el usuario tiene registrado
+  // en ingresos. Un usuario no puede "gastar" dinero que nunca ingreso.
+  if (categoria !== 'ingresos') {
+    const totales = await movimientoRepo.totalesPorUsuario(req.user!.userId);
+    const egresosActuales = totales.gastos + totales.impuestos + totales.fondo_emergencia;
+    const disponible = totales.ingresos - egresosActuales;
+
+    if (montoNumerico > disponible) {
+      return res.status(400).json({
+        message:
+          disponible > 0
+            ? `No puedes registrar ese monto: solo tienes Q${disponible.toFixed(2)} disponibles de tus ingresos. Registra mas ingresos primero.`
+            : 'No puedes registrar mas gastos que ingresos. Registra un ingreso primero.',
+      });
+    }
+  }
+
   const movimiento = await movimientoRepo.crearMovimiento({
     usuarioId: req.user!.userId,
     categoria,

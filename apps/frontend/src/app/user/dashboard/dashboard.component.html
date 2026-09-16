@@ -1,5 +1,5 @@
 <div class="dashboard-layout">
-  <app-dashboard-sidebar activo="dashboard" (proximamente)="abrirProximamente()"></app-dashboard-sidebar>
+  <app-dashboard-sidebar activo="dashboard"></app-dashboard-sidebar>
 
   <div class="main-wrapper">
     <header class="top-header">
@@ -106,13 +106,5 @@
         <div class="table-footer">Ver los demás Gastos &#8964;</div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="session-modal-backdrop" *ngIf="mostrarProximamente()" (click)="cerrarProximamente()">
-  <div class="session-modal" (click)="$event.stopPropagation()">
-    <h3>Proximamente Disponible</h3>
-    <p>Esta seccion todavia esta en construccion. ¡Muy pronto podras usarla!</p>
-    <button type="button" (click)="cerrarProximamente()">Entendido</button>
   </div>
 </div>
