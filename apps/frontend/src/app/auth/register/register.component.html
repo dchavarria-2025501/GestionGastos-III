@@ -79,6 +79,14 @@
       </button>
     </form>
 
+    <div class="separador-o" *ngIf="googleDisponible">
+      <span>o</span>
+    </div>
+
+    <div class="google-btn-wrap" *ngIf="googleDisponible">
+      <div #googleBtn></div>
+    </div>
+
     <p class="auth-footer">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesion</a></p>
   </div>
 </div>

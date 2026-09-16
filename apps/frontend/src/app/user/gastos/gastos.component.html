@@ -42,6 +42,9 @@
         </div>
 
         <p class="error" *ngIf="error">{{ error }}</p>
+        <p class="disponible-hint" [class.disponible-hint-negativo]="disponible <= 0">
+          Disponible para gastar: <strong>Q {{ disponibleFormateado }}</strong>
+        </p>
 
         <form (ngSubmit)="agregarGasto()" class="gastos-form">
           <label>Descripcion</label>

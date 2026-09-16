@@ -34,6 +34,21 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'impuestos',
+    loadComponent: () => import('./user/impuestos/impuestos.component').then((m) => m.ImpuestosComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'reportes',
+    loadComponent: () => import('./user/reportes/reportes.component').then((m) => m.ReportesComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'mi-tarjeta',
+    loadComponent: () => import('./user/mi-tarjeta/mi-tarjeta.component').then((m) => m.MiTarjetaComponent),
+    canActivate: [authGuard],
+  },
+  {
     path: 'profile',
     loadComponent: () => import('./user/profile/profile.component').then((m) => m.ProfileComponent),
     canActivate: [authGuard],

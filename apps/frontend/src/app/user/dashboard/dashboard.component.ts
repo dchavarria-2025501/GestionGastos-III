@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { CategoriaMovimiento, Movimiento, MovimientoService } from '../../core/services/movimiento.service';
@@ -69,8 +69,6 @@ const GASTOS_DEMO: FilaGasto[] = [
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
-  mostrarProximamente = signal(false);
-
   movimientos: Movimiento[] = [];
 
   constructor(public auth: AuthService, private movimientoService: MovimientoService) {}
@@ -176,13 +174,5 @@ export class DashboardComponent implements OnInit {
 
       return { ...segmento, left: `${left}%`, top: `${top}%` };
     });
-  }
-
-  abrirProximamente(): void {
-    this.mostrarProximamente.set(true);
-  }
-
-  cerrarProximamente(): void {
-    this.mostrarProximamente.set(false);
   }
 }

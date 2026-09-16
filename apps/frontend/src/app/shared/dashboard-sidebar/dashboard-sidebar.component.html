@@ -22,39 +22,62 @@
     </a>
 
     <a class="menu-item" [class.active]="activo === 'fondo-emergencia'" routerLink="/fondo-emergencia">
-      <span class="menu-emoji">📒</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"></path>
+      </svg>
       Fondo Emergencia
     </a>
 
     <a class="menu-item" [class.active]="activo === 'gastos'" routerLink="/gastos">
-      <span class="menu-emoji">💼</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+        <polyline points="17 18 23 18 23 12"></polyline>
+      </svg>
       Gastos
     </a>
 
     <a class="menu-item" [class.active]="activo === 'ingresos'" routerLink="/ingresos">
-      <span class="menu-emoji">📈</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+        <polyline points="17 6 23 6 23 12"></polyline>
+      </svg>
       Ingresos
     </a>
 
-    <button class="menu-item" type="button" (click)="avisarProximamente()">
-      <span class="menu-emoji">🧾</span>
+    <a class="menu-item" [class.active]="activo === 'impuestos'" routerLink="/impuestos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <path d="M14 2v6h6"></path>
+        <line x1="8" y1="13" x2="16" y2="13"></line>
+        <line x1="8" y1="17" x2="16" y2="17"></line>
+      </svg>
       Impuestos
-    </button>
+    </a>
 
-    <button class="menu-item" type="button" (click)="avisarProximamente()">
-      <span class="menu-emoji">🔔</span>
+    <a class="menu-item" [class.active]="activo === 'reportes'" routerLink="/reportes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10"></line>
+        <line x1="12" y1="20" x2="12" y2="4"></line>
+        <line x1="6" y1="20" x2="6" y2="14"></line>
+      </svg>
       Reportes
-    </button>
+    </a>
 
     <div class="menu-divider"></div>
 
-    <button class="menu-item" type="button" (click)="avisarProximamente()">
-      <span class="menu-emoji">💳</span>
+    <a class="menu-item" [class.active]="activo === 'mi-tarjeta'" routerLink="/mi-tarjeta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="4" width="22" height="16" rx="2"></rect>
+        <line x1="1" y1="10" x2="23" y2="10"></line>
+      </svg>
       Mi Tarjeta
-    </button>
+    </a>
 
     <a class="menu-item" routerLink="/profile">
-      <span class="menu-emoji">👤</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
       Perfil
     </a>
 

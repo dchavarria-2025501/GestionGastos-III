@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,9 @@ import { AuthService } from '../../core/services/auth.service';
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
 })
-export class RegisterComponent {
+export class RegisterComponent implements AfterViewInit {
+  @ViewChild('googleBtn') googleBtn?: ElementRef<HTMLDivElement>;
+
   nombre = '';
   email = '';
   password = '';
@@ -27,6 +30,8 @@ export class RegisterComponent {
   // existe, se evita mostrar una imagen rota.
   logoCargado = false;
 
+  googleDisponible = !!environment.googleClientId;
+
   constructor(private auth: AuthService, private router: Router) {}
 
   onLogoLoad(): void {
@@ -35,6 +40,57 @@ export class RegisterComponent {
 
   onLogoError(): void {
     this.logoCargado = false;
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.googleDisponible || !this.googleBtn) {
+      return;
+    }
+    this.esperarGoogleListo(0);
+  }
+
+  private esperarGoogleListo(intento: number): void {
+    if (window.google?.accounts?.id) {
+      this.inicializarBotonGoogle();
+      return;
+    }
+    if (intento > 20) {
+      return;
+    }
+    setTimeout(() => this.esperarGoogleListo(intento + 1), 150);
+  }
+
+  private inicializarBotonGoogle(): void {
+    window.google!.accounts.id.initialize({
+      client_id: environment.googleClientId,
+      callback: (respuesta) => this.onCredencialGoogle(respuesta.credential),
+    });
+
+    window.google!.accounts.id.renderButton(this.googleBtn!.nativeElement, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      text: 'signup_with',
+      shape: 'pill',
+      width: 320,
+    });
+  }
+
+  private onCredencialGoogle(credential: string): void {
+    this.error = '';
+    this.cargando = true;
+
+    this.auth.loginConGoogle(credential).subscribe({
+      next: (res) => {
+        this.cargando = false;
+        const destino = res.user.role === 'admin' ? '/admin/dashboard' : '/dashboard';
+        this.router.navigate([destino]);
+      },
+      error: (err) => {
+        this.cargando = false;
+        this.error = err?.error?.message || 'No se pudo continuar con Google.';
+      },
+    });
   }
 
   onSubmit(): void {

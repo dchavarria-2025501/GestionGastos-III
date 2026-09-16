@@ -1,0 +1,111 @@
+<div class="dashboard-layout">
+  <app-dashboard-sidebar activo="reportes"></app-dashboard-sidebar>
+
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="header-title">
+        <h1>Reportes</h1>
+        <p>Un vistazo general a toda tu actividad financiera.</p>
+      </div>
+
+      <div class="header-right">
+        <div class="user-profile">
+          <div class="user-info">
+            <span class="user-name">{{ auth.currentUser()?.nombre }}</span>
+            <span class="user-role">{{ auth.currentUser()?.role?.toUpperCase() }}</span>
+          </div>
+          <div class="user-avatar">
+            <img *ngIf="auth.currentUser()?.avatarData" [src]="auth.currentUser()?.avatarData" alt="Foto de perfil" />
+            <svg *ngIf="!auth.currentUser()?.avatarData" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="20" fill="#bfe3f0"></circle>
+              <circle cx="27" cy="10" r="5" fill="#ffffff" opacity="0.9"></circle>
+              <path d="M0 30 Q10 19 20 27 T40 25 V40 H0 Z" fill="#8fbf6b"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dashboard-body reportes-body">
+      <div class="card reportes-resumen-card">
+        <div class="card-header">
+          <h3>Resumen general</h3>
+        </div>
+
+        <div class="reportes-stats-grid">
+          <div class="reportes-stat">
+            <span class="reportes-stat-label">Total ingresos</span>
+            <span class="reportes-stat-valor reportes-valor-ingreso">Q {{ formatearQ(totalIngresos) }}</span>
+          </div>
+          <div class="reportes-stat">
+            <span class="reportes-stat-label">Total egresos</span>
+            <span class="reportes-stat-valor reportes-valor-egreso">Q {{ formatearQ(totalEgresos) }}</span>
+          </div>
+          <div class="reportes-stat">
+            <span class="reportes-stat-label">Balance neto</span>
+            <span class="reportes-stat-valor" [class.reportes-valor-egreso]="balanceNeto < 0" [class.reportes-valor-ingreso]="balanceNeto >= 0">
+              Q {{ formatearQ(balanceNeto) }}
+            </span>
+          </div>
+        </div>
+
+        <p class="reportes-comparativa-titulo">Ingresos frente a egresos</p>
+        <div class="reportes-comparativa">
+          <div class="reportes-comparativa-barra reportes-barra-ingreso" [style.width.%]="porcentajeIngresos">
+            <span *ngIf="porcentajeIngresos > 12">{{ porcentajeIngresos }}%</span>
+          </div>
+          <div class="reportes-comparativa-barra reportes-barra-egreso" [style.width.%]="porcentajeEgresos">
+            <span *ngIf="porcentajeEgresos > 12">{{ porcentajeEgresos }}%</span>
+          </div>
+        </div>
+        <div class="reportes-comparativa-leyenda">
+          <span><i class="reportes-punto reportes-punto-ingreso"></i> Ingresos</span>
+          <span><i class="reportes-punto reportes-punto-egreso"></i> Egresos</span>
+        </div>
+
+        <button type="button" class="reportes-exportar-btn" (click)="exportarCsv()" [disabled]="!tieneMovimientos">
+          Exportar historial (CSV)
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Desglose por categoría</h3>
+        </div>
+
+        <div class="reportes-chart" *ngIf="tieneMovimientos; else sinDatosChart">
+          <div class="reportes-barra-col" *ngFor="let barra of barras">
+            <span class="reportes-barra-monto">Q {{ formatearQ(barra.total) }}</span>
+            <div class="reportes-barra-pista">
+              <div class="reportes-barra-relleno" [style.height.%]="barra.alturaPct" [style.background]="barra.color"></div>
+            </div>
+            <span class="reportes-barra-etiqueta">{{ barra.etiqueta }}</span>
+          </div>
+        </div>
+        <ng-template #sinDatosChart>
+          <p class="tabla-vacia">Todavia no hay movimientos para graficar.</p>
+        </ng-template>
+
+        <div class="card-header reportes-recientes-header">
+          <h3>Movimientos recientes</h3>
+        </div>
+
+        <div class="reportes-recientes" *ngIf="movimientosRecientes.length > 0; else sinRecientes">
+          <div class="reportes-reciente-fila" *ngFor="let m of movimientosRecientes">
+            <span class="reportes-reciente-categoria" [ngClass]="'reportes-tag-' + m.categoria">
+              {{ etiquetaCategoria(m.categoria) }}
+            </span>
+            <span class="reportes-reciente-desc">{{ m.descripcion }}</span>
+            <span class="reportes-reciente-fecha">{{ formatearFecha(m.fecha) }}</span>
+            <span class="reportes-reciente-monto" [class.reportes-valor-ingreso]="m.categoria === 'ingresos'" [class.reportes-valor-egreso]="m.categoria !== 'ingresos'">
+              {{ m.categoria === 'ingresos' ? '' : '-' }}Q {{ formatearQ(m.monto) }}
+            </span>
+          </div>
+        </div>
+        <ng-template #sinRecientes>
+          <p class="tabla-vacia">Todavia no tienes movimientos registrados.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

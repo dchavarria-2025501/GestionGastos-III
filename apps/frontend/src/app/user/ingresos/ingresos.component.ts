@@ -7,16 +7,15 @@ import { DashboardSidebarComponent } from '../../shared/dashboard-sidebar/dashbo
 
 interface CategoriaRapida {
   etiqueta: string;
-  emoji: string;
 }
 
 // Atajos para no tener que escribir la descripcion desde cero cada vez.
 const CATEGORIAS_RAPIDAS: CategoriaRapida[] = [
-  { etiqueta: 'Salario', emoji: '💵' },
-  { etiqueta: 'Freelance', emoji: '💻' },
-  { etiqueta: 'Bono', emoji: '🎁' },
-  { etiqueta: 'Venta', emoji: '🏷️' },
-  { etiqueta: 'Reembolso', emoji: '↩️' },
+  { etiqueta: 'Salario' },
+  { etiqueta: 'Freelance' },
+  { etiqueta: 'Bono' },
+  { etiqueta: 'Venta' },
+  { etiqueta: 'Reembolso' },
 ];
 
 @Component({

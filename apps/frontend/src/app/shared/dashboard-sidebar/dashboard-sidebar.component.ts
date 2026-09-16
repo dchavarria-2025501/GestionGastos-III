@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -10,10 +10,8 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './dashboard-sidebar.component.html',
 })
 export class DashboardSidebarComponent {
-  // Cual item resaltar como activo: 'dashboard' | 'gastos' | 'ingresos' | 'fondo-emergencia'
-  @Input() activo: 'dashboard' | 'gastos' | 'ingresos' | 'fondo-emergencia' = 'dashboard';
-
-  @Output() proximamente = new EventEmitter<void>();
+  // Cual item resaltar como activo
+  @Input() activo: 'dashboard' | 'gastos' | 'ingresos' | 'fondo-emergencia' | 'impuestos' | 'reportes' | 'mi-tarjeta' = 'dashboard';
 
   logoCargado = false;
 
@@ -25,10 +23,6 @@ export class DashboardSidebarComponent {
 
   onLogoError(): void {
     this.logoCargado = false;
-  }
-
-  avisarProximamente(): void {
-    this.proximamente.emit();
   }
 
   logout(): void {
